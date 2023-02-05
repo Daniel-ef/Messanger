@@ -1,0 +1,51 @@
+openapi: 3.0.3
+
+servers:
+  - url: https://console.neon.tech/api/v2
+  - url: https://console.stage.neon.tech/api/v2
+
+info:
+  title: Messaging service
+  version: v1
+  contact:
+    email: dlefimov@mail.ru
+
+tags:
+  - name: Websocket
+    description: These methods allow you to create and manage API keys for your Neon account. For related information, see [Manage API keys](https://neon.tech/docs/manage/api-keys/).
+
+paths:
+  /init_connection:
+    get:
+      tags:
+        - Websocket
+      operationId: InitConnection
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          required:
+            true
+      responses:
+        200:
+          description: Connection established
+        500:
+          $ref: "#/components/responses/GeneralError"
+
+components:
+  responses:
+    GeneralError:
+      description: General error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GeneralError"
+
+  schemas:
+    GeneralError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message

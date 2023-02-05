@@ -1,0 +1,45 @@
+messages:
+  - inbound:
+      type:
+        type: string
+        enum:
+          - message
+      chat_id:
+        type: string
+        format: uuid
+      send_to:
+        type: string
+        format: uuid
+      send_from:
+        type: string
+        format: uuid
+      message:
+        type: string
+    example:
+      `
+{
+  "type": "message",
+  "chat_id": "47b521d5-c974-44b7-9275-a1a7e41874c1",
+  "send_to": "47b521d5-c974-44b7-9275-a1a7e41874c1",
+  "send_from": "47b521d5-c974-44b7-9275-a1a7e41874c1",
+  "text": "Hello"
+}
+        `
+  - outbound:
+      chat_id:
+        type: string
+        format: uuid
+      sent_at:
+        type: string
+        format: date-time
+      sent_by:
+        type: string
+        format: uuid
+      message:
+        type: string
+      attachments:
+        type: array
+        items:
+          type: string
+          format: uuid
+
