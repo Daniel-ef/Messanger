@@ -20,7 +20,7 @@ type KafkaController struct {
 	readers map[Topic]*kafka.Reader
 }
 
-func NewKafkaController(ctx context.Context, addresses ...string) (*KafkaController, func(ctx context.Context)) {
+func NewKafkaTransport(ctx context.Context, addresses ...string) (*KafkaController, func(ctx context.Context)) {
 	controller := &KafkaController{
 		writers: make(map[Topic]*kafka.Writer),
 		readers: make(map[Topic]*kafka.Reader),

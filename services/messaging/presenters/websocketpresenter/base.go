@@ -1,26 +1,15 @@
 package websocketpresenter
 
 import (
-	"context"
-	"github.com/google/uuid"
-	kafkacontroller "github.com/messanger/services/messaging/controllers/kafka_controller"
-	"github.com/messanger/services/messaging/transport/websocket"
+	"github.com/messanger/services/messaging/controllers/messagingcontroller"
 )
 
-type HubsMap map[uuid.UUID]*websocket.Hub
-
 type WebsocketPresenter struct {
-	servingClients HubsMap
-	kafkaCtrl      *kafkacontroller.KafkaController
+	messagingCtrl *messagingcontroller.Service
 }
 
-func NewWebsocketPresenter(ctx context.Context, kafkaConn *kafkacontroller.KafkaController) *WebsocketPresenter {
-	wp := &WebsocketPresenter{
-		kafkaCtrl:      kafkaConn,
-		servingClients: make(HubsMap),
+func NewWebsocketPresenter(messagingCtrl *messagingcontroller.Service) *WebsocketPresenter {
+	return &WebsocketPresenter{
+		messagingCtrl: messagingCtrl,
 	}
-
-	go wp.HandleMessageFromKafka(ctx)
-
-	return wp
 }

@@ -14,9 +14,10 @@ import (
 
 	"go.uber.org/zap"
 
-	kafkacontroller "github.com/messanger/services/messaging/controllers/kafka_controller"
+	"github.com/messanger/services/messaging/controllers/messagingcontroller"
 	"github.com/messanger/services/messaging/logger"
 	"github.com/messanger/services/messaging/presenters/websocketpresenter"
+	"github.com/messanger/services/messaging/transport/kafkatransport"
 )
 
 var addr = flag.String("addr", ":8080", "http_presenter service address")
@@ -40,9 +41,9 @@ func main() {
 
 	ctx := context.Background()
 
-	kafkaCtr, closer := kafkacontroller.NewKafkaController(ctx, "localhost:29092")
-
-	websocketPresenter := websocketpresenter.NewWebsocketPresenter(ctx, kafkaCtr)
+	kafkaTr, closer := kafkacontroller.NewKafkaTransport(ctx, "localhost:29092")
+	messagingCtrl := messagingcontroller.NewService(ctx, kafkaTr)
+	websocketPresenter := websocketpresenter.NewWebsocketPresenter(messagingCtrl)
 
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/init", websocketPresenter.InitConnection)
