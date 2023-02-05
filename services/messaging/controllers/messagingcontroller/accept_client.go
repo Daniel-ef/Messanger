@@ -11,7 +11,7 @@ import (
 func (s *Service) AcceptClient(ctx context.Context, userID uuid.UUID, hub *websocket.Hub) {
 	s.servingClients[userID] = hub
 
-	go hub.Run(ctx, s.SendMessageToKafka)
+	go hub.Run(context.Background(), s.SendMessageToKafka)
 
 	logger.Info(ctx, "got new client", zap.String("user_id", userID.String()))
 }

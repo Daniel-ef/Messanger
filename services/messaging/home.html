@@ -27,7 +27,7 @@
                 return false;
             };
 
-            if (window["WebSocket"]) {
+            const createWSConnection = function () {
                 conn = new WebSocket("ws://" + document.location.host + "/init?user_id=47b521d5-c974-44b7-9275-a1a7e41874c1");
                 conn.onclose = function (evt) {
                     var item = document.createElement("div");
@@ -42,12 +42,19 @@
                         appendLog(item);
                     }
                 };
+            };
+
+            document.getElementById("reconnect").onclick = createWSConnection
+
+
+            if (window["WebSocket"]) {
+                createWSConnection();
             } else {
                 var item = document.createElement("div");
                 item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
                 appendLog(item);
             }
-        };
+        }
     </script>
     <style type="text/css">
         html {
@@ -92,6 +99,7 @@
 <form id="form">
     <input type="submit" value="Send" />
     <input type="text" id="msg" size="64" autofocus />
+    <input type="button" id="reconnect" value="Reconnect" />
 </form>
 </body>
 </html>

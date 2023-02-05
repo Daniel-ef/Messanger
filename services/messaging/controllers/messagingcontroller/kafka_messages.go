@@ -16,7 +16,7 @@ func (s *Service) SendMessageToKafka(ctx context.Context, message []byte) {
 	// send to Kafka
 	err := s.kafkaCtrl.SendMessage(ctx, kafkacontroller.TopicMessages, message)
 	if err != nil {
-		logger.Error(ctx, "could not write message to kafkatransport", zap.Error(err))
+		logger.Error(ctx, "could not write message to kafka", zap.Error(err))
 		return
 	}
 }
